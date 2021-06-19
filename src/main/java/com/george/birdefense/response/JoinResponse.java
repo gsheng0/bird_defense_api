@@ -1,6 +1,6 @@
-package com.george.springboot.response;
+package com.george.birdefense.response;
 
-import com.george.springboot.Player;
+import com.george.birdefense.Player;
 
 public class JoinResponse extends Response{
     private final Player other;

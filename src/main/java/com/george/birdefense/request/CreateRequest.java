@@ -1,6 +1,6 @@
-package com.george.springboot.request;
+package com.george.birdefense.request;
 
-import com.george.springboot.Player;
+import com.george.birdefense.Player;
 
 public class CreateRequest extends Request {
     private final Player player;

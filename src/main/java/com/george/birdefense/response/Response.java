@@ -1,4 +1,4 @@
-package com.george.springboot.response;
+package com.george.birdefense.response;
 
 public class Response {
     private final String errorMessage;

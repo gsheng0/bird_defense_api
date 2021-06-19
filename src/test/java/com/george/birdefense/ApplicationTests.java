@@ -1,4 +1,4 @@
-package com.george.springboot;
+package com.george.birdefense;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

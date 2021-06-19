@@ -1,7 +1,6 @@
-package com.george.springboot.response;
+package com.george.birdefense.response;
 
-import com.george.springboot.Player;
-import com.george.springboot.request.SyncRoomRequest;
+import com.george.birdefense.Player;
 
 public class SyncRoomResponse extends Response {
     private final Player player;

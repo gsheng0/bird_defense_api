@@ -1,4 +1,4 @@
-package com.george.springboot;
+package com.george.birdefense;
 
 public class Player {
     private final long id;

@@ -1,6 +1,6 @@
-package com.george.springboot;
+package com.george.birdefense;
 
-import com.george.springboot.request.Request;
+import com.george.birdefense.request.Request;
 
 public class Action extends Request {
     private final long id;

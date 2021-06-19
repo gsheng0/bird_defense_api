@@ -1,4 +1,4 @@
-package com.george.springboot;
+package com.george.birdefense;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

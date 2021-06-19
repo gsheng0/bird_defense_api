@@ -1,4 +1,4 @@
-package com.george.springboot.request;
+package com.george.birdefense.request;
 
 public class Request {
     private final long id;

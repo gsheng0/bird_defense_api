@@ -1,12 +1,12 @@
-package com.george.springboot;
+package com.george.birdefense;
 
-import com.george.springboot.request.CreateRequest;
-import com.george.springboot.request.JoinRequest;
-import com.george.springboot.request.Request;
-import com.george.springboot.request.SyncRoomRequest;
-import com.george.springboot.response.CreateResponse;
-import com.george.springboot.response.JoinResponse;
-import com.george.springboot.response.SyncRoomResponse;
+import com.george.birdefense.request.CreateRequest;
+import com.george.birdefense.request.JoinRequest;
+import com.george.birdefense.request.Request;
+import com.george.birdefense.request.SyncRoomRequest;
+import com.george.birdefense.response.CreateResponse;
+import com.george.birdefense.response.JoinResponse;
+import com.george.birdefense.response.SyncRoomResponse;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
