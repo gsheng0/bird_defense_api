@@ -23,8 +23,7 @@ public class ApplicationController {
     private ArrayList<Room> rooms = new ArrayList<>();
 
     @PostMapping("/send")
-    public void process(@RequestBody Action payload)
-            throws Exception {
+    public void process(@RequestBody Action payload) throws Exception {
         actions.add(payload);
 
     }
