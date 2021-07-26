@@ -1,11 +1,9 @@
 package com.george.springboot;
 
-import com.george.springboot.request.CreateRequest;
-import com.george.springboot.request.JoinRequest;
-import com.george.springboot.request.Request;
-import com.george.springboot.request.SyncRoomRequest;
-import com.george.springboot.response.CreateResponse;
-import com.george.springboot.response.JoinResponse;
+import com.george.springboot.request.*;
+import com.george.springboot.response.ChangeSideResponse;
+import com.george.springboot.response.CreateRoomResponse;
+import com.george.springboot.response.JoinRoomResponse;
 import com.george.springboot.response.SyncRoomResponse;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +19,11 @@ public class ApplicationController {
     private ArrayList<Integer> userIds = new ArrayList<>();
     private ArrayList<Action> actions = new ArrayList<>();
     private ArrayList<Room> rooms = new ArrayList<>();
+
+    @GetMapping("/")
+    public String home(){
+        return "Bird Defense API Home";
+    }
 
     @PostMapping("/send")
     public void process(@RequestBody Action payload)
@@ -51,18 +54,20 @@ public class ApplicationController {
     }
 
     @PostMapping("/room/create")
-    public CreateResponse createRoom(@RequestBody CreateRequest payload){
+    public CreateRoomResponse createRoom(@RequestBody CreateRoomRequest payload){
         Player player = payload.getPlayer();
         Room room = new Room(Room.generateCode(4));
         room.getPlayers().add(player);
+        room.setBirdPlayer(player);
+        room.setHost(player);
         rooms.add(room);
         System.out.println(room.getCode());
-        return new CreateResponse(room.getCode());
+        return new CreateRoomResponse(room.getCode());
 
     }
 
     @PostMapping("/room/join")
-    public JoinResponse joinRoom(@RequestBody JoinRequest payload){
+    public JoinRoomResponse joinRoom(@RequestBody JoinRoomRequest payload){
         Player player = payload.getPlayer();
         String code = payload.getCode();
         System.out.println(code);
@@ -70,14 +75,39 @@ public class ApplicationController {
             if(room.getCode().equals(code))
             {
                 if(room.getPlayers().size() >= 2)
-                    return new JoinResponse(true, "Room is full");
+                    return new JoinRoomResponse(true, "Room is full");
                 else {
+                    if(room.getBirdPlayer() == null){
+                        room.setBirdPlayer(player);
+                    }
+                    else{
+                        room.setBatPlayer(player);
+                    }
                     room.addPlayer(player);
-                    return new JoinResponse(room.getPlayers().get(0));
+                    if(room.getPlayers().get(0).getId() == room.getBatPlayer().getId())
+                        return new JoinRoomResponse(room.getPlayers().get(0), "bat");
+                    else
+                        return new JoinRoomResponse(room.getPlayers().get(0), "bird");
                 }
             }
         }
-        return new JoinResponse(true, "Room does not exist");
+        return new JoinRoomResponse(true, "Room does not exist");
+
+    }
+
+    @PostMapping("/room/change")
+    public ChangeSideResponse changeSide(@RequestBody ChangeSideRequest payload){
+
+        for(Room room : rooms){
+            if(room.getCode().equals(payload.getRoomCode())){
+                if(payload.isFromHost())
+                    room.swapSides();
+                else
+                    room.setRequestSwitch(true);
+                return new ChangeSideResponse(false, "");
+            }
+        }
+        return new ChangeSideResponse(true, "Room not found");
 
     }
 
@@ -87,15 +117,32 @@ public class ApplicationController {
         Player player = payload.getPlayer();
         boolean started = payload.getStart();
 
+
         for(Room room : rooms){
             if(room.getCode().equals(code)){
+                boolean request = room.isRequestSwitch();
                 if(room.getPlayers().size() == 2){
                     if(started){
                         room.start();
                     }
-                    if(room.getPlayers().get(0).getId() == player.getId())
-                        return new SyncRoomResponse(room.getPlayers().get(1), room.getStarted());
-                    return new SyncRoomResponse(room.getPlayers().get(0), room.getStarted());
+                    if(room.getPlayers().get(0).getId() == player.getId()) {
+                        if(room.getBatPlayer().getId() == player.getId()){ //If the current player is the bat player, then the other player is the bird player
+                            return new SyncRoomResponse(room.getPlayers().get(1), room.getStarted(), "bird", request);
+                        }
+                        else{
+                            return new SyncRoomResponse(room.getPlayers().get(1), room.getStarted(), "bat", request);
+                        }
+
+                    }
+                    else {
+                        if(room.getBatPlayer().getId() == player.getId()){
+                            return new SyncRoomResponse(room.getPlayers().get(0), room.getStarted(), "bird", request);
+                        }
+                        else{
+                            return new SyncRoomResponse(room.getPlayers().get(0), room.getStarted(), "bat", request);
+                        }
+
+                    }
                 }
                 else{
                     return new SyncRoomResponse(false);

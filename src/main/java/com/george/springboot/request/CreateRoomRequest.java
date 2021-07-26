@@ -2,9 +2,9 @@ package com.george.springboot.request;
 
 import com.george.springboot.Player;
 
-public class CreateRequest extends Request {
+public class CreateRoomRequest extends Request {
     private final Player player;
-    public CreateRequest(Player player, String type){
+    public CreateRoomRequest(Player player, String type){
         super(player.getId(), type);
         this.player = player;
     }

@@ -1,12 +1,12 @@
 package com.george.springboot.response;
 
-public class CreateResponse extends Response {
+public class CreateRoomResponse extends Response {
     private final String code;
-    public CreateResponse(String code){
+    public CreateRoomResponse(String code){
         super(false);
         this.code = code;
     }
-    public CreateResponse(boolean error, String errorMessage){
+    public CreateRoomResponse(boolean error, String errorMessage){
         super(error, errorMessage);
         this.code = "";
     }

@@ -6,9 +6,14 @@ public class Room {
     private final String code;
     private ArrayList<Player> players = new ArrayList<>();
     private boolean started = false;
+    private Player host;
+    private Player bird;
+    private Player bat;
+    private boolean requestSwitch = false;
     public Room(String code){
         this.code = code;
     }
+
 
     public String getCode() {
         return code;
@@ -17,7 +22,27 @@ public class Room {
     public ArrayList<Player> getPlayers() {
         return players;
     }
-
+    public void setRequestSwitch(boolean requestSwitch){
+        this.requestSwitch = requestSwitch;
+    }
+    public boolean isRequestSwitch() { return requestSwitch; }
+    public void setHost(Player host) {
+        this.host = host;
+        this.bird = host;
+    }
+    public void setBirdPlayer(Player player){
+        bird = player;
+    }
+    public void setBatPlayer(Player player){
+        bat = player;
+    }
+    public void swapSides(){
+        Player temp = bat;
+        bat = bird;
+        bird = temp;
+    }
+    public Player getBirdPlayer() { return bird; }
+    public Player getBatPlayer() { return bat; }
     public boolean getStarted() { return started; }
     public void start() { started = true; }
     public void stop() { started = false; }
