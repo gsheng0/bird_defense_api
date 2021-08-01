@@ -100,8 +100,10 @@ public class ApplicationController {
 
         for(Room room : rooms){
             if(room.getCode().equals(payload.getRoomCode())){
-                if(payload.isFromHost())
+                if(payload.isFromHost()) {
                     room.swapSides();
+                    room.setRequestSwitch(false);
+                }
                 else
                     room.setRequestSwitch(true);
                 return new ChangeSideResponse(false, "");
@@ -121,6 +123,7 @@ public class ApplicationController {
         for(Room room : rooms){
             if(room.getCode().equals(code)){
                 boolean request = room.isRequestSwitch();
+                System.out.println(request);
                 if(room.getPlayers().size() == 2){
                     if(started){
                         room.start();

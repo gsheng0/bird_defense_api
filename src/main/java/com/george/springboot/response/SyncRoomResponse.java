@@ -30,6 +30,7 @@ public class SyncRoomResponse extends Response {
         start = false;
         side = "";
     }
+
     public String getSide() { return side; }
     public boolean getStart() { return start; }
     public Player getPlayer() { return player; }
